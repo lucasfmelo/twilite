@@ -1,0 +1,610 @@
+<html>
+   <head>
+      <title>VueJs Instance</title>
+      <script type = "text/javascript" src = "lib/vue.js"></script>
+      <script type = "text/javascript" src = "lib/vue-router.js"></script>
+   </head>
+   <body>
+      <div id = "vue_det">
+        <h1>Firstname : {{firstname}}</h1>
+        <h1>Lastname : {{lastname}}</h1>
+        <div v-html = "htmlcontent"></div>
+        <img v-bind:src = "imgsrc" width = "300" height = "250" />
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+        var vm = new Vue({
+        el: '#vue_det',
+        data: {
+            firstname : "Ria",
+            lastname  : "Singh",
+            htmlcontent : "<div><h1>Vue Js Template</h1></div>",
+            imgsrc : "assets/logo.png"
+        }
+        })
+      </script>
+      <div id = "component_test">
+         <testcomponent></testcomponent>
+      </div>
+      <div id = "component_test1">
+         <testcomponent></testcomponent>
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+        Vue.component('testcomponent',{
+        template : '<div v-on:mouseover = "changename()" v-on:mouseout = "originalname();"><h1>Custom Component created by <span id = "name">{{name}}</span></h1></div>',
+        data: function() {
+            return {
+                name : "Ria"
+            }
+        },
+        methods:{
+            changename : function() {
+                this.name = "Ben";
+            },
+            originalname: function() {
+                this.name = "Ria";
+            }
+        }
+        });
+        var vm = new Vue({
+        el: '#component_test'
+        });
+        var vm1 = new Vue({
+        el: '#component_test1'
+        });
+      </script>
+      <div id = "databinding">
+         <component v-bind:is = "view"></component>
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding',
+            data: {
+               view: 'component1'
+            },
+            components: {
+               'component1': {
+                  template: '<div><span style = "font-size:25;color:red;">Dynamic Component</span></div>'
+               }
+            }
+         });
+      </script>
+      <div id = "computed_props1">
+         FirstName : <input type = "text" v-model = "firstname" /> <br/><br/>
+         LastName : <input type = "text" v-model = "lastname"/> <br/><br/>
+         <h1>My name is {{firstname}} {{lastname}}</h1>
+         <h1>Using computed method : {{getfullname}}</h1>
+         <hr/>
+      </div>
+      <script type = "text/javascript">
+        var vm = new Vue({
+        el: '#computed_props1',
+        data: {
+            firstname :"",
+            lastname :"",
+            birthyear : ""
+        },
+        computed :{
+            getfullname : function(){
+                return this.firstname +" "+ this.lastname;
+            }
+        }
+        })
+      </script>
+      <div id = "computed_props2">
+         <h1 style = "background-color:gray;">Random No from computed property: {{getrandomno}}</h1>
+         <h1>Random No from method: {{getrandomno1()}}</h1>
+         <h1>Random No from method : {{getrandomno1()}}</h1>
+         <h1  style = "background-color:gray;">Random No from computed property: {{getrandomno}}</h1>
+         <h1  style = "background-color:gray;">Random No from computed property: {{getrandomno}}</h1>
+         <h1  style = "background-color:gray;">Random No from computed
+            property: {{getrandomno}}</h1>
+         <h1>Random No from method: {{getrandomno1()}}</h1>
+         <h1>Random No from method: {{getrandomno1()}}</h1>
+         <hr/>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#computed_props2',
+            data: {
+               name : "helloworld"
+            },
+            methods: {
+               getrandomno1 : function() {
+                  return Math.random();
+               }
+            },
+            computed :{
+               getrandomno : function(){
+                  return Math.random();
+               }
+            }
+         });
+      </script>
+      <div id = "computed_props3">
+         <input type = "text" v-model = "fullname" />
+         <h1>{{firstName}}</h1>
+         <h1>{{lastName}}</h1>
+         <hr/>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#computed_props3',
+            data: {
+               firstName : "Terry",
+               lastName : "Ben"
+            },
+            methods: {
+            },
+            computed :{
+               fullname : {
+                  get : function() {
+                     return this.firstName+" "+this.lastName;
+                  },
+                  set : function(name) {
+                     var fname = name.split(" ");
+                     this.firstName = fname[0];
+                     this.lastName = fname[1]
+                  }
+               }
+            }
+         });
+      </script>
+      <div id = "computed_props4">
+         Kilometers : <input type = "text" v-model = "kilometers">
+         Meters : <input type = "text" v-model = "meters">
+         <hr/>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#computed_props4',
+            data: {
+               kilometers : 0,
+               meters:0
+            },
+            methods: {
+            },
+            computed :{
+            },
+            watch : {
+               kilometers:function(val) {
+                  this.kilometers = val;
+                  this.meters = val * 1000;
+               },
+               meters : function (val) {
+                  this.kilometers = val/ 1000;
+                  this.meters = val;
+               }
+            }
+         });
+      </script>
+      <div id = "databinding1">
+         <h3>TEXTBOX</h3>
+         <input  v-model = "name" placeholder = "Enter Name" />
+         <h3>Name entered is : {{name}}</h3>
+         <hr/>
+         <h3>Textarea</h3>
+         <textarea v-model = "textmessage" placeholder = "Add Details"></textarea>
+         <h1><p>{{textmessage}}</p></h1>
+         <hr/>
+         <h3>Checkbox</h3>
+         <input type = "checkbox" id = "checkbox" v-model = "checked"> {{checked}}
+         <hr/>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding1',
+            data: {
+               name:'',
+               textmessage:'',
+               checked : false
+            }
+         });
+      </script>
+      <div id = "databinding2">
+         <h3>Radio</h3>
+         <input type = "radio" id = "black" value = "Black" v-model = "picked">Black
+         <input type = "radio" id = "white" value = "White" v-model = "picked">White
+         <h3>Radio element clicked : {{picked}} </h3>
+         <hr/>
+         <h3>Select</h3>
+         <select v-model = "languages">
+            <option disabled value = "">Please select one</option>
+            <option>Java</option>
+            <option>Javascript</option>
+            <option>Php</option>
+            <option>C</option>
+            <option>C++</option>
+         </select>
+         <h3>Languages Selected is : {{ languages }}</h3>
+         <hr/>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding2',
+            data: {
+               picked : 'White',
+               languages : ""
+            }
+         });
+      </script>
+      <div id = "databinding3">
+        <span style = "font-size:25px;">Enter Age:</span> <input v-model.number = "age" type = "number">
+        <br/>
+        <span style = "font-size:25px;">Enter Message:</span> <input v-model.lazy = "msg">
+        <h3>Display Message : {{msg}}</h3>
+        <br/>
+        <span style = "font-size:25px;">Enter Message : </span><input v-model.trim = "message">
+        <h3>Display Message : {{message}}</h3>
+        <hr/>
+     </div>
+     <script type = "text/javascript">
+        var vm = new Vue({
+           el: '#databinding3',
+           data: {
+              age : 0,
+              msg: '',
+              message : ''
+           }
+        });
+     </script>
+     <div id = "databinding4">
+         <button v-on:click = "displaynumbers">Click ME</button>
+         <h2> Add Number 100 + 200 = {{total}}</h2>
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding4',
+            data: {
+               num1: 100,
+               num2 : 200,
+               total : ''
+            },
+            methods : {
+               displaynumbers : function(event) {
+                  console.log(event);
+                  return this.total =  this.num1+ this.num2;
+               }
+            },
+         });
+      </script>
+      <div id = "databinding5">
+         <div v-bind:style = "styleobj" v-on:mouseover = "changebgcolor" v-on:mouseout = "originalcolor"></div>
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding5',
+            data: {
+               num1: 100,
+               num2 : 200,
+               total : '',
+               styleobj : {
+                  width:"100px",
+                  height:"100px",
+                  backgroundColor:"red"
+               }
+            },
+            methods : {
+               changebgcolor : function() {
+                  this.styleobj.backgroundColor = "green";
+               },
+               originalcolor : function() {
+                  this.styleobj.backgroundColor = "red";
+               }
+            },
+         });
+      </script>
+      <div id = "databinding6">
+         <button v-on:click.once = "buttonclickedonce" v-bind:style = "styleobj">Click Once</button>
+         Output:{{clicknum}}
+         <br/><br/>
+         <button v-on:click = "buttonclicked"  v-bind:style = "styleobj">Click Me</button>
+         Output:{{clicknum1}}
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding6',
+            data: {
+               clicknum : 0,
+               clicknum1 :0,
+               styleobj: {
+                  backgroundColor: '#2196F3!important',
+                  cursor: 'pointer',
+                  padding: '8px 16px',
+                  verticalAlign: 'middle',
+               }
+            },
+            methods : {
+               buttonclickedonce : function() {
+                  this.clicknum++;
+               },
+               buttonclicked : function() {
+                  this.clicknum1++;
+               }
+            }
+         });
+      </script>
+      <div id = "databinding7">
+         <a href = "http://www.google.com" v-on:click.prevent = "clickme" target = "_blank" v-bind:style = "styleobj">Click Me</a>
+         <a href = "http://www.google.com" v-on:click = "clickme" target = "_blank" v-bind:style = "styleobj">Click Me</a>
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding7',
+            data: {
+               clicknum : 0,
+               clicknum1 :0,
+               styleobj: {
+                  color: '#4CAF50',
+                  marginLeft: '20px',
+                  fontSize: '30px'
+               }
+            },
+            methods : {
+               clickme : function() {
+                  alert("Anchor tag is clicked");
+               }
+            }
+         });
+      </script>
+      <div id = "databinding8">
+         <input type = "text" v-on:keyup.enter = "showinputvalue" v-bind:style = "styleobj" placeholder = "Enter your name"/>
+         <h3> {{name}}</h3>
+      </div>
+      <hr/>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding8',
+            data: {
+               name:'',
+               styleobj: {
+                  width: "30%",
+                  padding: "12px 20px",
+                  margin: "8px 0",
+                  boxSizing: "border-box"
+               }
+            },
+            methods : {
+               showinputvalue : function(event) {
+                  this.name=event.target.value;
+               }
+            }
+         });
+      </script>
+      <div id = "databinding9">
+         <div id = "counter-event-example">
+            <p style = "font-size:25px;">Language displayed : <b>{{ languageclicked }}</b></p>
+            <button-counter
+                v-for = "(lingua, indice) in languages"
+                v-bind:item = "lingua"
+                v-bind:index = "indice"
+                v-on:showlanguage = "languagedisp">
+            </button-counter>
+         </div>
+      </div>
+      <script type = "text/javascript">
+         Vue.component('button-counter', {
+            template: '<button v-on:click = "displayLanguage(item)"><span style = "font-size:25px;">{{ item }}</span></button>',
+            data: function () {
+               return {
+                  counter: 0
+               }
+            },
+            props:['item'],
+            methods: {
+               displayLanguage: function (lng) {
+                  console.log(lng);
+                  this.$emit('showlanguage', lng);
+               }
+            },
+         });
+         var vm = new Vue({
+            el: '#databinding9',
+            data: {
+               languageclicked: "",
+               languages : ["Java", "PHP", "C++", "C", "Javascript", "C#", "Python", "HTML"]
+            },
+            methods: {
+               languagedisp: function (a) {
+                  this.languageclicked = a;
+               }
+            }
+         })
+      </script>
+      <hr/>
+      <div id = "databinding10">
+         <button v-on:click = "showdata" v-bind:style = "styleobj">Click Me</button>
+         <span style = "font-size:25px;"><b>{{show}}</b></span>
+         <h1 v-if = "show">This is h1 tag</h1>
+         <h2 v-else>This is h2 tag</h2>
+         <div v-show = "show">
+            <b>V-Show:</b>
+            <img src = "assets/logo.png" width = "100" height = "100" />
+         </div>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding10',
+            data: {
+               show: true,
+               styleobj: {
+                  backgroundColor: '#2196F3!important',
+                  cursor: 'pointer',
+                  padding: '8px 16px',
+                  verticalAlign: 'middle',
+               }
+            },
+            methods : {
+               showdata : function() {
+                  this.show = !this.show;
+               }
+            },
+         });
+      </script>
+      <hr/>
+      <div id = "databinding11">
+         <input type = "text" v-on:keyup.enter = "showinputvalue"
+            v-bind:style = "styleobj" placeholder = "Enter Fruits Names"/>
+         <h1 v-if = "items.length>0">Display Fruits Name</h1>
+         <ul>
+            <li v-for = "(a, index) in items">{{index}}--{{a}}</li>
+         </ul>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding11',
+            data: {
+               items:[],
+               styleobj: {
+                  width: "30%",
+                  padding: "12px 20px",
+                  margin: "8px 0",
+                  boxSizing: "border-box"
+               }
+            },
+            methods : {
+               showinputvalue : function(event) {
+                  this.items.push(event.target.value);
+               }
+            },
+         });
+      </script>
+      <hr/>
+      <style>
+         .fade-enter-active, .fade-leave-active {
+            transition: opacity 2s
+         }
+         .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0
+         }
+         .shiftx-enter-active, .shiftx-leave-active {
+            transition: all 2s ease-in-out;
+         }
+         .shiftx-enter, .shiftx-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            transform :  translateX(100px);
+         }
+      </style>
+      <div id = "databinding12">
+         <button v-on:click = "show = !show">Click Me</button>
+         <transition name = "fade">
+            <p v-show = "show" v-bind:style = "styleobj">Animation Example</p>
+         </transition>
+         <transition name = "shiftx">
+            <p v-show = "show">
+               <img src = "assets/logo.png" style = "width:100px;height:100px;" />
+            </p>
+         </transition>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding12',
+            data: {
+               show:true,
+               styleobj :{
+                  fontSize:'30px',
+                  color:'red'
+               }
+            },
+            methods : {
+            }
+         });
+      </script>
+      <hr/>
+      <div id = "databinding13">
+         <div v-changestyle>VueJS Directive</div>
+      </div>
+      <div id = "databinding14">
+         <div v-changestyle = "{color:'green'}">VueJS Directive</div>
+      </div>
+      <script type = "text/javascript">
+         Vue.directive("changestyle",{
+            bind(e1,binding, vnode) {
+               console.log(e1);
+               e1.style.color = "red";
+               e1.style.fontSize = "30px";
+            }
+         });
+         var vm = new Vue({
+            el: '#databinding13',
+            data: {
+            },
+            methods : {
+            },
+         });
+      </script>
+      <script type = "text/javascript">
+         Vue.directive("changestyle",{
+            bind(e1,binding, vnode) {
+               console.log(e1);
+               console.log(binding.value.color);
+               console.log(vnode);
+               e1.style.color=binding.value.color;
+               e1.style.fontSize = "30px";
+            }
+         });
+         var vm = new Vue({
+            el: '#databinding14',
+            data: {
+            },
+            methods : {
+            },
+         });
+      </script>
+      <hr/>
+      <div id = "databinding15">
+         <input  v-model = "name" placeholder = "Enter Name" /><br/>
+         <span style = "font-size:25px;"><b>Letter count is : {{name | countletters}}</b></span>
+      </div>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding15',
+            data: {
+               name : ""
+            },
+            filters : {
+               countletters : function(value) {
+                  return value.length;
+               }
+            }
+         });
+      </script>
+      <hr/>
+      <style>
+        ._active{
+            background-color : red;
+        }
+      </style>
+      <div id = "app">
+         <h1>Routing Example</h1>
+         <p>
+            <router-link to = "/route1" exact-active-class = "_active" event = "mouseover">Router Link 1</router-link>
+            <router-link v-bind:to = "{path:'/route2', query: { name: 'Tery' }}">Router Link 2</router-link>
+         </p>
+         <!-- route outlet -->
+         <!-- component matched by the route will render here -->
+         <router-view></router-view>
+      </div>
+      <script type = "text/javascript">
+         const Route1 = { template: '<div style = "border-radius:20px;background-color:cyan;width:200px;height:50px;margin:10px;font-size:25px;padding:10px;">This is router 1</div>' }
+         const Route2 = { template: '<div style = "border-radius:20px;background-color:green;width:200px;height:50px;margin:10px;font-size:25px;padding:10px;">This is router 2</div>' }
+         const routes = [
+            { path: '/route1', component: Route1 },
+            { path: '/route2', component: Route2 }
+         ];
+         const router = new VueRouter({
+            routes // short for `routes: routes`
+         });
+         var vm = new Vue({
+            el: '#app',
+            router
+         });
+      </script>
+      <hr/>
+   </body>
+</html>

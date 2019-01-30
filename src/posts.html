@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>TwiLite</title>
+        <meta meta charset="UTF-8">
+        <script type="text/javascript" src="lib/vue.js"></script>        
+        <script type="text/javascript" src="lib/axios.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="w3.css">
+    </head>
+    <body class="home">
+        <div>
+            <img src="./assets/logo.png" height="42" width="42">
+            <h1>TwiLite</h1>
+        </div>
+        <div id="postar" class="w3-container">
+            <textarea rows="4" cols="50" v-model = "conteudo" placeholder = "O que está acontecendo?"></textarea>
+            <br><br>
+            <button v-on:click="postarConteudo" class="w3-button w3-teal">Postar</button>
+        </div>
+        <hr/>
+        <div id="listar" class="w3-container">
+            <div v-for="post in posts">
+                <span>Usuario: {{ post.login }}</span>
+                <br>
+                <span>Conteudo: {{ post.conteudo }}</span>
+                <br>
+                <span>Data e Hora da postagem: {{ post.created_at }}</span>
+                <br><br>
+            </div>
+        </div>
+        <script type="text/javascript" src="twilite.js"></script>
+    </body>
+</html>
