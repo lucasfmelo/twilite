@@ -5,8 +5,8 @@ const PUBLICACOES_API = "http://127.0.0.1:3333/api/v1/publicacoes/";
 var vmLogar = new Vue({
     el: '#logar',
     data: {
-        login:'',
-        senha:''
+        login: '',
+        senha: ''
     },
     methods :{
         logarUsuario: function() {
@@ -36,8 +36,8 @@ var vmLogar = new Vue({
 var vmCadastrar = new Vue({
     el: '#cadastrar',
     data: {
-        login:'',
-        senha:'',
+        login: '',
+        senha: '',
         email: ''
     },
     methods :{
@@ -68,7 +68,23 @@ var vmPostar = new Vue({
     el: '#postar',
     data: {
         id_usuario: getUrlVars()["id_usuario"],
-        conteudo:''
+        login_usuario: USUARIOS_API+getUrlVars()["id_usuario"],
+        conteudo: ''
+    },
+    mounted() {
+        axios({
+            method: "GET",
+            url: USUARIOS_API+getUrlVars()["id_usuario"],
+            data: {
+            }
+        }).then(
+            result => {
+                this.login_usuario = result.data.login;
+            },
+            error => {
+                console.error(error);
+            }
+        );
     },
     methods :{
         postarConteudo: function() {

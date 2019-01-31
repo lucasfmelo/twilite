@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <img src="./assets/tl-circle-logo.png" height="250" width="250">
     <!--<router-view/>-->
     <!--<HelloWorld/>-->
     <home/>

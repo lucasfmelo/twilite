@@ -8,24 +8,30 @@
         <link rel="stylesheet" href="w3.css">
     </head>
     <body class="home">
-        <div>
-            <img src="./assets/logo.png" height="42" width="42">
-            <h1>TwiLite</h1>
-        </div>
-        <div id="postar" class="w3-container">
-            <textarea rows="4" cols="50" v-model = "conteudo" placeholder = "O que está acontecendo?"></textarea>
-            <br><br>
-            <button v-on:click="postarConteudo" class="w3-button w3-teal">Postar</button>
+        <div class="w3-row">
+            <div class="w3-third w3-container">
+                <img src="./assets/tl-circle-logo.png" height="80" width="80">
+                <h1>TwiLite</h1>
+            </div>
+            <div id="postar" class="w3-third w3-container">
+                <h4>Olá, {{ login_usuario }}!</h4>
+                <br>
+                <textarea rows="4" cols="50" v-model = "conteudo" maxlength="300" placeholder = "O que está acontecendo?"></textarea>
+                <br><br>
+                <button v-on:click="postarConteudo" class="w3-button w3-light-blue">Postar</button>
+            </div>
         </div>
         <hr/>
         <div id="listar" class="w3-container">
             <div v-for="post in posts">
-                <span>Usuario: {{ post.login }}</span>
+                <div style="border:2px solid lightblue" class="w3-hover-border-red w3-round-xlarge">
+                    <br>
+                    <span><i>{{ post.login }}</i> disse:</span>
+                    <br>
+                    <span><b>{{ post.conteudo }}</b></span>
+                    <br><br>
+                </div>
                 <br>
-                <span>Conteudo: {{ post.conteudo }}</span>
-                <br>
-                <span>Data e Hora da postagem: {{ post.created_at }}</span>
-                <br><br>
             </div>
         </div>
         <script type="text/javascript" src="twilite.js"></script>
